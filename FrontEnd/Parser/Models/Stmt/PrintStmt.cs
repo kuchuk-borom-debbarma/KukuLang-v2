@@ -1,5 +1,5 @@
-﻿using FrontEnd.Parser.Models.Expressions;
-using FrontEnd.Parser.Models.Stmt;
+﻿using FrontEnd.Parser.Models.Stmt;
+using KukuLang.Parser.Models.Expressions;
 
 namespace KukuLang.Parser.Models.Stmt
 {

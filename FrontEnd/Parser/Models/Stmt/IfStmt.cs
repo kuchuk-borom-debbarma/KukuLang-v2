@@ -1,13 +1,13 @@
-﻿using FrontEnd.Parser.Models.Expressions;
-using FrontEnd.Parser.Models.Scope;
+﻿using KukuLang.Parser.Models.Expressions;
+using KukuLang.Parser.Models.Scope;
 
 namespace FrontEnd.Parser.Models.Stmt
 {
-    public class IfStmt(ExpressionStmt condition, ASTScope scope, ASTScope? elseScope = null) : StmtBase("If Statement")
+    public class IfStmt(ExpressionStmt condition, AstScope scope, AstScope? elseScope = null) : StmtBase("If Statement")
     {
         public ExpressionStmt Condition { get; } = condition;
-        public ASTScope Scope { get; } = scope;
-        public ASTScope? ElseScope { get; set; } = elseScope;
+        public AstScope Scope { get; } = scope;
+        public AstScope? ElseScope { get; set; } = elseScope;
 
         public override string ToString(int indentLevel = 0)
         {

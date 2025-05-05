@@ -1,21 +1,30 @@
 ﻿using FrontEnd.Lexer;
 using KukuLang.Interpreter.Interpreters.Main_Interpreter;
+using KukuLang.Parser.Parsers.Recursive_MAIN_;
 
-namespace FrontEnd;
+namespace KukuLang;
 
 class Program
 {
     static void Main(string[] args)
     {
-        string sourcePath1 = "C:\\Project\\KukuLang\\KukuLang\\FrontEnd\\Snippet\\Demo.kukulang";
-        string source = File.ReadAllText(sourcePath1);
-        Console.WriteLine(source);
+        Console.Write("Enter the path to the source file: ");
+        var sourcePath = Console.ReadLine();
+        while (!File.Exists(sourcePath))
+        {
+            Console.WriteLine("File not found. Please enter a valid path:");
+            sourcePath = Console.ReadLine();
+        }
+
+        string source = File.ReadAllText(sourcePath);
         KukuLexer lexer = new(source);
         var tokens = lexer.Tokenize();
-        tokens.ForEach(token => Console.WriteLine(token));
+        tokens.ForEach(Console.WriteLine);
+
         var parser = new RecursiveDescentParser(tokens);
-        var ast = parser.Parse();
+        var ast = parser.Parse(null);
         Console.WriteLine(ast.ToString(0));
+
         MainInterpreter interpreter = new(ast);
         interpreter.Interpret();
         //TODO: list

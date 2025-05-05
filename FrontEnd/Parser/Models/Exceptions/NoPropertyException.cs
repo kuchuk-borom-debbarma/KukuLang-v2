@@ -1,10 +1,9 @@
 ﻿using FrontEnd.Commons.Tokens;
 
-namespace FrontEnd.Parser.Models.Exceptions
+namespace KukuLang.Parser.Models.Exceptions;
+
+public class NoPropertyException(Token token) : Exception
 {
-    public class NoPropertyException(Token token) : Exception
-    {
-        private readonly string Msg = $"No Property or Parameter for Definition : {token.Value} at position {token.Position}";
-        public override string Message => Msg;
-    }
+    private readonly string _msg = $"No Property or Parameter for Definition : {token.Value} at position {token.Position}";
+    public override string Message => _msg;
 }

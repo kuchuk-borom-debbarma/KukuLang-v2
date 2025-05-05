@@ -1,15 +1,15 @@
-﻿
+﻿using FrontEnd.Parser.Services;
+using KukuLang.Parser.Models.CustomTask;
+using KukuLang.Parser.Models.CustomType;
 
-using FrontEnd.Parser.Services;
-
-namespace FrontEnd.Parser.Models.Scope
+namespace KukuLang.Parser.Models.Scope
 {
-    public class ASTScope(string scopeName)
+    public class AstScope(string scopeName)
     {
-        public string ScopeName = scopeName;
-        public List<CustomType.CustomTypeBase> CustomTypes { get; } = [];
-        public List<CustomTask.CustomTaskBase> CustomTasks { get; } = [];
-        public List<Stmt.StmtBase> Statements { get; } = [];
+        public readonly string ScopeName = scopeName;
+        public List<CustomTypeBase> CustomTypes { get; } = [];
+        public List<CustomTaskBase> CustomTasks { get; } = [];
+        public List<FrontEnd.Parser.Models.Stmt.StmtBase> Statements { get; } = [];
 
         public string ToString(int indentLevel = 0)
         {

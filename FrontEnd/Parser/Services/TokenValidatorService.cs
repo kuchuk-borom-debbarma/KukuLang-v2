@@ -1,5 +1,5 @@
 ﻿using FrontEnd.Commons.Tokens;
-using FrontEnd.Parser.Models.Exceptions;
+using KukuLang.Parser.Models.Exceptions;
 
 namespace FrontEnd.Parser.Services;
 

@@ -1,15 +1,15 @@
-﻿using FrontEnd.Parser.Models.CustomTask;
-using FrontEnd.Parser.Models.CustomType;
-using FrontEnd.Parser.Models.Scope;
-using FrontEnd.Parser.Models.Stmt;
+﻿using FrontEnd.Parser.Models.Stmt;
 using KukuLang.Interpreter.Model.Scope;
 using KukuLang.Interpreter.Service;
+using KukuLang.Parser.Models.CustomTask;
+using KukuLang.Parser.Models.CustomType;
+using KukuLang.Parser.Models.Scope;
 
 namespace KukuLang.Interpreter.Interpreters.Main_Interpreter
 {
-    public class MainInterpreter(ASTScope astRootScope)
+    public class MainInterpreter(AstScope astRootScope)
     {
-        public ASTScope ASTRootScope = astRootScope;
+        public AstScope ASTRootScope = astRootScope;
 
         public void Interpret()
         {

@@ -1,13 +1,13 @@
-﻿using FrontEnd.Parser.Models.Expressions;
-using FrontEnd.Parser.Models.Scope;
-using FrontEnd.Parser.Models.Stmt;
+﻿using FrontEnd.Parser.Models.Stmt;
+using KukuLang.Parser.Models.Expressions;
+using KukuLang.Parser.Models.Scope;
 
 namespace KukuLang.Parser.Models.Stmt
 {
-    public class LoopStmt(ExpressionStmt condition, bool isUntil, ASTScope scope) : StmtBase("Loop StmtBase")
+    public class LoopStmt(ExpressionStmt condition, bool isUntil, AstScope scope) : StmtBase("Loop StmtBase")
     {
         public ExpressionStmt Condition = condition;
-        public ASTScope Scope = scope;
+        public AstScope Scope = scope;
         public bool IsUntil = isUntil;
 
         public override string ToString(int indentLevel = 0)

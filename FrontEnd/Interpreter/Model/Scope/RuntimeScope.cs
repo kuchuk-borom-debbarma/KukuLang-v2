@@ -1,6 +1,6 @@
-﻿using FrontEnd.Parser.Models.CustomTask;
-using FrontEnd.Parser.Models.CustomType;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using KukuLang.Parser.Models.CustomTask;
+using KukuLang.Parser.Models.CustomType;
 
 namespace KukuLang.Interpreter.Model.Scope
 {

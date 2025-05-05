@@ -1,27 +1,27 @@
-﻿using FrontEnd.Parser.Services;
+﻿using FrontEnd.Parser.Models.Stmt;
+using FrontEnd.Parser.Services;
 
-namespace FrontEnd.Parser.Models.CustomType
+namespace KukuLang.Parser.Models.CustomType;
+
+/// <summary>
+/// Represents data types. int, float and text will be present by default.
+/// </summary>
+/// <param name="typeName"></param>
+/// <param name="varNameVarTypePair"></param>
+public class CustomTypeBase(string typeName, Dictionary<string, string> varNameVarTypePair) : StmtBase($"CT:{typeName}")
 {
-    /// <summary>
-    /// Represents data types. int, float and text will be present by default.
-    /// </summary>
-    /// <param name="typeName"></param>
-    /// <param name="varNameVarTypePair"></param>
-    public class CustomTypeBase(string typeName, Dictionary<string, string> varNameVarTypePair) : Stmt.StmtBase($"CT:{typeName}")
-    {
-        public string TypeName { get; } = typeName;
-        public Dictionary<string, string> VarNameVarTypePair { get; } = varNameVarTypePair;
+    public string TypeName { get; } = typeName;
+    public Dictionary<string, string> VarNameVarTypePair { get; } = varNameVarTypePair;
 
-        public override string ToString(int indentLevel = 0)
+    public override string ToString(int indentLevel = 0)
+    {
+        string typeNamstr = $"{IndentHelper.Indent(TypeName, indentLevel)}\n";
+        string paramsStr = $"{IndentHelper.Indent("Params: ", indentLevel + 2)}\n";
+        foreach (var kvp in VarNameVarTypePair)
         {
-            string typeNamstr = $"{IndentHelper.Indent(TypeName, indentLevel)}\n";
-            string paramsStr = $"{IndentHelper.Indent("Params: ", indentLevel + 2)}\n";
-            foreach (var kvp in VarNameVarTypePair)
-            {
-                paramsStr += $"{IndentHelper.Indent($"{kvp.Key} : {kvp.Value}, ", indentLevel + 4)}\n";
-            }
-            var finalString = typeNamstr + paramsStr;
-            return finalString + "\n";
+            paramsStr += $"{IndentHelper.Indent($"{kvp.Key} : {kvp.Value}, ", indentLevel + 4)}\n";
         }
+        var finalString = typeNamstr + paramsStr;
+        return finalString + "\n";
     }
 }

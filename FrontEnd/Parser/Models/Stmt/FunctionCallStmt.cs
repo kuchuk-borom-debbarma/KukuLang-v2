@@ -1,4 +1,4 @@
-﻿using FrontEnd.Parser.Models.Expressions;
+﻿using KukuLang.Parser.Models.Expressions;
 
 namespace FrontEnd.Parser.Models.Stmt
 {

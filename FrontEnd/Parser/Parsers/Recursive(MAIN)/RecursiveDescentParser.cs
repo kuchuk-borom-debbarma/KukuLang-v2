@@ -1,29 +1,25 @@
 ﻿using FrontEnd.Commons.Tokens;
-using FrontEnd.Parser.Models.Scope;
 using FrontEnd.Parser.Parsers;
 using FrontEnd.Parser.Services;
+using KukuLang.Parser.Models.Scope;
 
-namespace FrontEnd
+namespace KukuLang.Parser.Parsers.Recursive_MAIN_;
+
+public class RecursiveDescentParser(List<Token> tokens, int startingPosition = 0)
+    : ParserBase<AstScope, dynamic>(tokens, startingPosition)
 {
-    public class RecursiveDescentParser(List<Token> tokens, int startingPosition = 0) : ParserBase<ASTScope, dynamic>(tokens, startingPosition)
+    private readonly AstScope _currentScope = new("ASTRootScope");
+
+    //Parameter not used so we set it as null to keep ParserBase happy.
+    public override AstScope Parse(dynamic? arg)
     {
-        private readonly ASTScope currentScope = new("ASTRootScope");
-
-        //Parameter not used so we set it as null to keep ParserBase happy.
-        public override ASTScope Parse(dynamic? arg = null)
+        while (CurrentToken.Type != TokenType.EOF)
         {
-
-            while (CurrentToken.Type != TokenType.EOF)
-            {
-                //Handle Custom Type declaration
-                TokenEvaluatorService.EvaluateToken(this, currentScope);
-                //Handle Set Statements
-            }
-            return currentScope;
+            //Handle Custom Type declaration
+            TokenEvaluatorService.EvaluateToken(this, _currentScope);
+            //Handle Set Statements
         }
 
-
-
-
+        return _currentScope;
     }
 }

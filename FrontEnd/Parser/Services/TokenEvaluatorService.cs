@@ -1,16 +1,16 @@
 
 
 using FrontEnd.Commons.Tokens;
-using FrontEnd.Parser.Models.CustomTask;
-using FrontEnd.Parser.Models.CustomType;
-using FrontEnd.Parser.Models.Exceptions;
-using FrontEnd.Parser.Models.Expressions;
-using FrontEnd.Parser.Models.Scope;
 using FrontEnd.Parser.Models.Stmt;
 using FrontEnd.Parser.Parsers;
 using FrontEnd.Parser.Parsers.Pratt;
 using KukuLang.Parser.Models.Stmt;
 using System.Data;
+using KukuLang.Parser.Models.CustomTask;
+using KukuLang.Parser.Models.CustomType;
+using KukuLang.Parser.Models.Exceptions;
+using KukuLang.Parser.Models.Expressions;
+using KukuLang.Parser.Models.Scope;
 
 namespace FrontEnd.Parser.Services
 {
@@ -21,7 +21,7 @@ namespace FrontEnd.Parser.Services
      */
     class TokenEvaluatorService
     {
-        public static void EvaluateToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        public static void EvaluateToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             //Each sub-evaluate method needs to consume the . or }
             switch (parser.CurrentToken.Type)
@@ -56,7 +56,7 @@ namespace FrontEnd.Parser.Services
         }
 
         //print with <expression>
-        private static void EvaluatePrint<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluatePrint<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating Print Token");
             parser.Advance(); //advance to with
@@ -69,7 +69,7 @@ namespace FrontEnd.Parser.Services
             scope.Statements.Add(new PrintStmt(exp));
         }
 
-        private static void EvaluateLoopToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluateLoopToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating Loop statement");
 
@@ -83,7 +83,7 @@ namespace FrontEnd.Parser.Services
             parser.Advance(); //Advance to the {
             TokenValidatorService.ValidateToken(TokenType.CurlyBracesOpening, parser.CurrentToken);
             parser.Advance(); //Advance to the first statement
-            var loopScope = new ASTScope(scope.ScopeName + "->LoopScope");
+            var loopScope = new AstScope(scope.ScopeName + "->LoopScope");
 
             // Parse the if block
             while (parser.CurrentToken.Type != TokenType.CurlyBracesClosing)
@@ -95,7 +95,7 @@ namespace FrontEnd.Parser.Services
 
         }
 
-        private static void EvaluateReturnToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluateReturnToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating Return Statement");
             parser.Advance(); //Advance to start of expression OR .
@@ -115,7 +115,7 @@ namespace FrontEnd.Parser.Services
             parser.Advance(); //Consume the ;
         }
 
-        private static void EvaluateFunctionCall<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluateFunctionCall<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating Function call");
 
@@ -132,7 +132,7 @@ namespace FrontEnd.Parser.Services
         }
 
         // Handles "define" tokens
-        private static void EvaluateDefineToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluateDefineToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating Define Statement");
             parser.Advance(); // Advance to the identifier token
@@ -158,7 +158,7 @@ namespace FrontEnd.Parser.Services
         }
 
         // Handles "define ... returning" tokens
-        private static void EvaluateDefineTaskToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope, Token taskNameToken)
+        private static void EvaluateDefineTaskToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope, Token taskNameToken)
         {
             parser.Advance(); // Advance to "nothing" or return type
             var returnTypeToken = parser.ConsumeCurrentToken(); // Store return type and advance to "with" or "{"
@@ -176,7 +176,7 @@ namespace FrontEnd.Parser.Services
             // Parse the task block
             TokenValidatorService.ValidateToken(TokenType.CurlyBracesOpening, parser.CurrentToken);
             parser.Advance(); // Consume the '{'
-            var taskScope = new ASTScope($"{scope.ScopeName}->{taskNameToken.Value}");
+            var taskScope = new AstScope($"{scope.ScopeName}->{taskNameToken.Value}");
             while (parser.CurrentToken.Type != TokenType.CurlyBracesClosing)
             {
                 EvaluateToken(parser, taskScope);
@@ -189,7 +189,7 @@ namespace FrontEnd.Parser.Services
         }
 
         // Handles "define ... with" tokens
-        private static void EvaluateDefineWithToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope, Token taskNameToken)
+        private static void EvaluateDefineWithToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope, Token taskNameToken)
         {
             parser.Advance(); // Advance to the first property
             TokenValidatorService.ValidateToken(TokenType.Identifier, parser.CurrentToken);
@@ -204,7 +204,7 @@ namespace FrontEnd.Parser.Services
         }
 
         // Handles "set" tokens
-        private static void EvaluateSetToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluateSetToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating Set Statement");
             TokenValidatorService.ValidateToken(TokenType.Set, parser.CurrentToken);
@@ -230,7 +230,7 @@ namespace FrontEnd.Parser.Services
         }
 
         // Handles "if" token
-        private static void EvaluateIfToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, ASTScope scope)
+        private static void EvaluateIfToken<ParserReturnType, ParserArgument>(ParserBase<ParserReturnType, ParserArgument> parser, AstScope scope)
         {
             Console.WriteLine("Evaluating If Statement");
 
@@ -243,7 +243,7 @@ namespace FrontEnd.Parser.Services
             parser.Advance(); // Advance to the "{"
             TokenValidatorService.ValidateToken(TokenType.CurlyBracesOpening, parser.CurrentToken);
 
-            var ifScope = new ASTScope($"{scope.ScopeName}->Conditional");
+            var ifScope = new AstScope($"{scope.ScopeName}->Conditional");
             parser.Advance(); // Advance to the first statement
 
             // Parse the if block
@@ -266,7 +266,7 @@ namespace FrontEnd.Parser.Services
             TokenValidatorService.ValidateToken(TokenType.Else, parser.CurrentToken);
             parser.Advance(); //Advance to {
             TokenValidatorService.ValidateToken(TokenType.CurlyBracesOpening, parser.CurrentToken);
-            var elseScope = new ASTScope($"{scope.ScopeName}->Conditional");
+            var elseScope = new AstScope($"{scope.ScopeName}->Conditional");
             parser.Advance(); //advance to the start of the statement
             while (parser.CurrentToken.Type != TokenType.CurlyBracesClosing)
             {

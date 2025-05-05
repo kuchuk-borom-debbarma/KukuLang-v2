@@ -1,7 +1,7 @@
-﻿using FrontEnd.Parser.Models.CustomType;
-using KukuLang.Interpreter.Model.RuntimeObj;
+﻿using KukuLang.Interpreter.Model.RuntimeObj;
 using KukuLang.Interpreter.Model.Scope;
 using System.Diagnostics;
+using KukuLang.Parser.Models.CustomType;
 
 namespace KukuLang.Interpreter.Service
 {

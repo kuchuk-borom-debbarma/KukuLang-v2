@@ -1,12 +1,11 @@
-﻿using FrontEnd.Parser.Models.Expressions;
+﻿namespace KukuLang.Parser.Models.Expressions.Literals;
 
-namespace KukuLang.Parser.Models.Expressions.Literals
+public abstract class LiteralExp(string type) : ExpressionStmt(type)
 {
-    public abstract class LiteralExp(string type) : ExpressionStmt(type)
+    private readonly string _type = type;
+
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return $"{GetType().Name}: {type}";
-        }
+        return $"{GetType().Name}: {_type}";
     }
 }
