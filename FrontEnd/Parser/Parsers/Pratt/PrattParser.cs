@@ -58,7 +58,7 @@ public class PrattParser(List<Token> tokens, int startingPosition = 0) : ParserB
     */
     public override ExpressionStmt Parse(int precedence = 1)
     {
-        var left = ProcessPrimaryExpAndAdvance();
+        var left = ProcessPrimaryExpAndAdvance(); 
 
         /*
         In the Parse method, we initially parse the left-hand side of the expression using ProcessPrimaryExpAndAdvance.

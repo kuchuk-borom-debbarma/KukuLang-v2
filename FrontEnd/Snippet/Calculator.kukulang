@@ -1,24 +1,3 @@
-define Human with age(int), name(text);
-
-set human to Human;
-set human's name to "kuku";
-set human's age to 12;
-
-set stud to Human;
-set stud's age to 20;
-
-define addition returning int with number1(int), number2(int){
-	return number1 + number2;
-}
-define subtraction returning int with number1(int), number2(int){
-	return number1 - number2;
-}
-define multiplication returning int with number1(int), number2(int){
-	return number1 * number2;
-}
-define division returning int with number1(int), number2(int){
-	return number1 / number2;
-}
 
 as_long_as True repeat{
 	print with "1. Addition 2. Subtraction 3. Multiplication 4. Division";

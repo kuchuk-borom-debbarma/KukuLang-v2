@@ -1,0 +1,187 @@
+﻿~ Bank Account Management System in KukuLang ~
+~ This program demonstrates custom data types, functions, conditionals, loops, and user input ~
+
+~ Define custom data types ~
+define Account with accountNumber(int), ownerName(text), balance(int);
+define Transaction with fromAccount(Account), toAccount(Account), amount(int);
+
+~ Define utility functions ~
+define createAccount returning Account with number(int), name(text), initialBalance(int) {
+    set newAccount to Account;
+    set newAccount's accountNumber to number;
+    set newAccount's ownerName to name;
+    set newAccount's balance to initialBalance;
+    return newAccount;
+}
+
+define displayAccount returning nothing with account(Account) {
+    print with "-----------------------------";
+    print with "Account Number: " + account's accountNumber;
+    print with "Owner: " + account's ownerName;
+    print with "Current Balance: $" + account's balance;
+    print with "-----------------------------";
+}
+
+define deposit returning int with account(Account), amount(int) {
+    if (amount is_less_than 0) then {
+        print with "Error: Cannot deposit negative amount.";
+        return account's balance;
+    }
+    else {
+        set account's balance to account's balance + amount;
+        print with "Deposited $" + amount + " successfully.";
+        return account's balance;
+    }
+}
+
+define withdraw returning int with account(Account), amount(int) {
+    if (amount is_less_than 0) then {
+        print with "Error: Cannot withdraw negative amount.";
+        return account's balance;
+    }
+    else {
+        if (amount is_greater_than account's balance) then {
+            print with "Error: Insufficient funds.";
+            return account's balance;
+        }
+        else {
+            set account's balance to account's balance - amount;
+            print with "Withdrew $" + amount + " successfully.";
+            return account's balance;
+        }
+    }
+}
+
+define transfer returning nothing with fromAcc(Account), toAcc(Account), amount(int) {
+    if (amount is_less_than 0) then {
+        print with "Error: Cannot transfer negative amount.";
+        return;
+    }
+    else {
+        if (amount is_greater_than fromAcc's balance) then {
+            print with "Error: Insufficient funds for transfer.";
+            return;
+        }
+        else {
+            set fromAcc's balance to fromAcc's balance - amount;
+            set toAcc's balance to toAcc's balance + amount;
+            
+            print with "Transferred $" + amount + " from account " + fromAcc's accountNumber + " to account " + toAcc's accountNumber;
+        }
+    }
+}
+
+~ Main program ~
+~ Create sample accounts ~
+set account1 to createAccount with number(1001), name("Alice"), initialBalance(5000);
+set account2 to createAccount with number(1002), name("Bob"), initialBalance(3000);
+
+print with "Welcome to KukuBank Management System";
+
+as_long_as True repeat {
+    print with "\nChoose an option:";
+    print with "1. Display Account Details";
+    print with "2. Deposit Money";
+    print with "3. Withdraw Money";
+    print with "4. Transfer Money";
+    print with "5. Exit";
+    
+    set choice to input;
+    
+    if (choice is 1) then {
+        print with "\nWhich account do you want to view? (1 for Alice, 2 for Bob)";
+        set accChoice to input;
+        
+        if (accChoice is 1) then {
+            displayAccount with account(account1);
+        }
+        else {
+            if (accChoice is 2) then {
+                displayAccount with account(account2);
+            }
+            else {
+                print with "Invalid account choice.";
+            }
+        }
+    }
+    else {
+        if (choice is 2) then {
+            print with "\nWhich account? (1 for Alice, 2 for Bob)";
+            set accChoice to input;
+            
+            print with "Enter deposit amount:";
+            set amount to input;
+            
+            if (accChoice is 1) then {
+                deposit with account(account1), amount(amount);
+            }
+            else {
+                if (accChoice is 2) then {
+                    deposit with account(account2), amount(amount);
+                }
+                else {
+                    print with "Invalid account choice.";
+                }
+            }
+        }
+        else {
+            if (choice is 3) then {
+                print with "\nWhich account? (1 for Alice, 2 for Bob)";
+                set accChoice to input;
+                
+                print with "Enter withdrawal amount:";
+                set amount to input;
+                
+                if (accChoice is 1) then {
+                    withdraw with account(account1), amount(amount);
+                }
+                else {
+                    if (accChoice is 2) then {
+                        withdraw with account(account2), amount(amount);
+                    }
+                    else {
+                        print with "Invalid account choice.";
+                    }
+                }
+            }
+            else {
+                if (choice is 4) then {
+                    print with "\nTransfer from which account? (1 for Alice, 2 for Bob)";
+                    set fromAccChoice to input;
+                    
+                    print with "Transfer to which account? (1 for Alice, 2 for Bob)";
+                    set toAccChoice to input;
+                    
+                    if (fromAccChoice is toAccChoice) then {
+                        print with "Cannot transfer to the same account.";
+                    }
+                    else {
+                        print with "Enter transfer amount:";
+                        set amount to input;
+                        
+                        if (fromAccChoice is 1 and toAccChoice is 2) then {
+                            transfer with fromAcc(account1), toAcc(account2), amount(amount);
+                        }
+                        else {
+                            if (fromAccChoice is 2 and toAccChoice is 1) then {
+                                transfer with fromAcc(account2), toAcc(account1), amount(amount);
+                            }
+                            else {
+                                print with "Invalid account choice.";
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (choice is 5) then {
+                        print with "Thank you for using KukuBank. Goodbye!";
+                        return;
+                    }
+                    else {
+                        print with "Invalid choice. Please try again.";
+                    }
+                }
+            }
+        }
+    }
+}
