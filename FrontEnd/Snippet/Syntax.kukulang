@@ -1,13 +1,11 @@
+define Human with age(int), name(text);
 
-
-
-define Human with age(int), name("kuku");
 set human to Human;
 set human's name to "kuku";
 set human's age to 12;
 
 set stud to Human;
-set stud's age to human's age;
+set stud's age to 20;
 
 define addition returning int with number1(int), number2(int){
 	return number1 + number2;

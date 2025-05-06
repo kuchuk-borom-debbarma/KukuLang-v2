@@ -6,7 +6,7 @@ namespace KukuLang;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         Console.Write("Enter the path to the source file: ");
         var sourcePath = Console.ReadLine();
@@ -16,14 +16,23 @@ class Program
             sourcePath = Console.ReadLine();
         }
 
-        string source = File.ReadAllText(sourcePath);
+        string source = await File.ReadAllTextAsync(sourcePath);
         KukuLexer lexer = new(source);
         var tokens = lexer.Tokenize();
         tokens.ForEach(Console.WriteLine);
 
         var parser = new RecursiveDescentParser(tokens);
         var ast = parser.Parse(null);
-        Console.WriteLine(ast.ToString(0));
+        try
+        {
+            await ast.SaveMermaidAsPngAsync("ast-diagram.png");
+            Console.WriteLine("PNG diagram saved to ast-diagram.png");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error generating PNG: {ex.Message}");
+            Console.WriteLine("Mermaid code was saved as fallback.");
+        }
 
         MainInterpreter interpreter = new(ast);
         interpreter.Interpret();
